@@ -22,6 +22,12 @@ class PerformanceMetrics:
         peak = equity_curve.cummax()
         drawdown = (equity_curve - peak) / peak
         return drawdown.min()
+
+    def sortino_ratio(returns, rf, target=0, periods_per_year=252):
+        excess = returns - rf / periods_per_year
+        downside = np.maximum(0, target - returns)
+        downside_dev = np.sqrt((downside ** 2).mean()) * np.sqrt(periods_per_year)
+        return excess.mean() * periods_per_year / downside_dev
     
     def compute(portfolio_returns, equity_curve,rf):
         performence_metrics = []
@@ -32,6 +38,7 @@ class PerformanceMetrics:
             "Annualized Return": PerformanceMetrics.annualized_return(returns),
             "Annualized Volatility": PerformanceMetrics.annualized_volatility(returns),
             "Sharpe Ratio": PerformanceMetrics.sharpe_ratio(returns, rf),
+            "Sortino Ratio": PerformanceMetrics.sortino_ratio(returns, rf),
             "Max Drawdown": PerformanceMetrics.max_drawdown(equity_curve[name])
             }
             )
