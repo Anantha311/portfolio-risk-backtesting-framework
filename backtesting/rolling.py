@@ -1,6 +1,7 @@
 import pandas as pd
 from data.data_handler import DataHandler
 from optimization.portfolio_optimizer import PortfolioOptimizer
+import numpy as np
 
 class RollingBacktester:
     def __init__(self, price_path,tran_cost=True,method_tran = "Turnover",train_period=6,rollback_period=3): # Give the entire returns, and roll back period is in months
